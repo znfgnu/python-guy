@@ -8,6 +8,6 @@ class Player(zx.Object):
     def draw(self):
         palette = zx.Game.data.palette
 
-        zx.Graphics.draw_striped_background(palette)
-        zx.Graphics.draw_wobbly_stripes(palette, self.position)
+        # zx.Graphics.draw_striped_background(palette)
+        zx.Graphics.draw_wobbly_stripes(palette, self.position, wobble=True)
         zx.Graphics.draw_diamond(palette, self.position)

@@ -26,72 +26,104 @@ class BaseColorPalette:
 
 
 palettes = {
-    'default': [
+    'first4': [
         BaseColorPalette.from_hex("aa2447"),
         BaseColorPalette.from_hex("ff6f5e"),
         BaseColorPalette.from_hex("f5f0e3"),
         BaseColorPalette.from_hex("40bfc1"),
     ],
-    'default2': [
+    'second4': [
         BaseColorPalette.from_hex("c0d154"),
         BaseColorPalette.from_hex("faf3e3"),
         BaseColorPalette.from_hex("de1b85"),
         BaseColorPalette.from_hex("6c1460"),
     ],
-    'default3': [
+    'third4': [
         BaseColorPalette.from_hex("4b2637"),
         BaseColorPalette.from_hex("7d2941"),
         BaseColorPalette.from_hex("e9e3e3"),
         BaseColorPalette.from_hex("b3a2a2"),
     ],
-    'gb': [
+    'gb4': [
         BaseColorPalette.from_hex("0f380f"),
         BaseColorPalette.from_hex("306230"),
         BaseColorPalette.from_hex("8bac0f"),
         BaseColorPalette.from_hex("9bbc0f"),
     ],
-    'icecream': [
+    'icecream4': [
         BaseColorPalette.from_hex("7c3f58"),
         BaseColorPalette.from_hex("eb6b6f"),
         BaseColorPalette.from_hex("f9a875"),
         BaseColorPalette.from_hex("fff6d3"),
     ],
-    'kamikaze': [
+    'kamikaze4': [
         BaseColorPalette.from_hex("332c50"),
         BaseColorPalette.from_hex("46878f"),
         BaseColorPalette.from_hex("94e344"),
         BaseColorPalette.from_hex("e2f3e4"),
     ],
-    'rustic': [
+    'rustic4': [
         BaseColorPalette.from_hex("2c2137"),
         BaseColorPalette.from_hex("764462"),
         BaseColorPalette.from_hex("edb4a1"),
         BaseColorPalette.from_hex("a96868"),
     ],
-    'dirtyboy': [
+    'dirtyboy4': [
         BaseColorPalette.from_hex("c4cfa1"),
         BaseColorPalette.from_hex("8b956d"),
         BaseColorPalette.from_hex("4d533c"),
         BaseColorPalette.from_hex("1f1f1f"),
     ],
-    'awakening': [
+    'awakening4': [
         BaseColorPalette.from_hex("5a3921"),
         BaseColorPalette.from_hex("6b8c42"),
         BaseColorPalette.from_hex("7bc67b"),
         BaseColorPalette.from_hex("ffffb5"),
     ],
-    'pokemon': [
+    'pokemon4': [
         BaseColorPalette.from_hex("181010"),
         BaseColorPalette.from_hex("84739c"),
         BaseColorPalette.from_hex("f7b58c"),
         BaseColorPalette.from_hex("ffefff"),
     ],
-    'grayscale': [
+    'grayscale4': [
         BaseColorPalette.from_hex("000000"),
         BaseColorPalette.from_hex("676767"),
         BaseColorPalette.from_hex("b6b6b6"),
         BaseColorPalette.from_hex("ffffff"),
     ],
+
+    # awsmcolors
+    'awsm219': [
+        BaseColorPalette.from_hex("324047"),
+        BaseColorPalette.from_hex("efefef"),
+        BaseColorPalette.from_hex("00cece"),
+        BaseColorPalette.from_hex("00abab"),
+    ],
+
+    # 16-colors
+    'island16': [
+        BaseColorPalette.from_hex("ffffff"),
+        BaseColorPalette.from_hex("6df7c1"),
+        BaseColorPalette.from_hex("11adc1"),
+        BaseColorPalette.from_hex("606c81"),
+
+        BaseColorPalette.from_hex("393457"),
+        BaseColorPalette.from_hex("1e8875"),
+        BaseColorPalette.from_hex("5bb361"),
+        BaseColorPalette.from_hex("a1e55a"),
+
+        BaseColorPalette.from_hex("f7e476"),
+        BaseColorPalette.from_hex("f99252"),
+        BaseColorPalette.from_hex("cb4d68"),
+        BaseColorPalette.from_hex("6a3771"),
+
+        BaseColorPalette.from_hex("c92464"),
+        BaseColorPalette.from_hex("f48cb6"),
+        BaseColorPalette.from_hex("f7b69e"),
+        BaseColorPalette.from_hex("9b9c82"),
+    ],
+
 }
 
 
@@ -102,7 +134,7 @@ class Game:
     game_window = None
     counter = None
 
-    palette = palettes['default']
+    palette = palettes['first4']
     background_color = None
 
     main_batch = pyglet.graphics.Batch()
@@ -309,21 +341,21 @@ class Graphics:
             )
 
     @classmethod
-    def draw_wobbly_stripes(cls, palette: Palette, position: Position = None):
+    def draw_wobbly_stripes(cls, palette: Palette, position: Position = None, wobble: bool = False):
         if position:
             cls._translate_push(position)
 
         for i, color in enumerate(palette):
             width = Game.data.display_size[0] / len(palette) / 2
-            x = -width * len(palette) / 2 + i * width + random.randint(-1, 1)
+            x = -width * len(palette) / 2 + i * width + (random.randint(-1, 1) if wobble else 0)
             pyglet.graphics.draw(
                 4, pyglet.gl.GL_POLYGON,
                 (
                     'v2f',
                     (x, -100) +
                     (x, +100) +
-                    (x+40, +100) +
-                    (x+40, -100)
+                    (x+width, +100) +
+                    (x+width, -100)
                 ),
                 (
                     'c3B',

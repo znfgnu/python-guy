@@ -7,7 +7,7 @@ class Game(zx.Game):
     prescaler = 3
     fps_on = True
 
-    palette = zx.palettes['awakening']
+    palette = zx.palettes['awsm219']
     background_color = palette[3]
 
     objects = [
